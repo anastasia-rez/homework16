@@ -18,30 +18,22 @@ createApp({
             else return false
 
         });
-
-        let gender = ref('');
         
-        const checkGender = computed(() => {
-
+        const gender = computed(() => {
 
             let digits = inn.value.split('').map(item => +item);
 
             if(digits[8] % 2 == 0){
-                gender = ref('Пол: женский');
+                return 'Пол: женский';
             } else {
-                gender = ref('Пол: мужской');
+                return 'Пол: мужской';
             }
-
-            console.log(gender.value);
-
 
         });
 
-        console.log(gender.value);
-
-        let birthDay = ref('');
 
         const bDay = computed(() => {
+
             let D = new Date(1900,0,1);
 
             let digits = inn.value.split('').map(item => +item);
@@ -52,10 +44,12 @@ createApp({
                 let curr_date = D.getDate();
                 let curr_month = D.getMonth() + 1;
                 let curr_year = D.getFullYear();
+
+
                 curr_month < 10 ? curr_month = ""  + '0' + curr_month : curr_month;
                 curr_date < 10 ? curr_date = "" + '0' + curr_date : curr_date;
-                birthDay = `${curr_date}` + '/' + `${curr_month}` + '/' + `${curr_year}`;
-
+                let birthDay = `${curr_date}` + '.' + `${curr_month}` + '.' + `${curr_year}`;
+                
                 console.log(birthDay);
 
                 let birhtDate = birthDay.substring(0, 2);
@@ -96,25 +90,29 @@ createApp({
                 }
 
                 console.log(zodiacSign);
+
+                let n = (birthYear - 1684)%60+1;
+                let z = n%12;
+                if(z==0){
+                    z = 12;
+                }
+
+                let name = new Array('', 'Крыса', 'Бык', 'Тигр', 'Кролик', 'Дракон', 'Змея', 'Лошадь', 'Овца', 'Обезьяна', 'Петух', 'Собака', 'Свинья');
+                console.log(name[z]);
+
+                return `Дата рождения: ${birthDay}, знак зодиака: ${zodiacSign}, символ: ${name[z]}`
             }
 
 
-        })
-
-
-
+        });
 
 
         return {
             title,
             inn, 
             isInnCorrect,
-            checkGender, 
             gender,
-            birthDay,
             bDay
-
-
         }
 
     }
@@ -123,4 +121,3 @@ createApp({
 
 
 // 3575405087
-
